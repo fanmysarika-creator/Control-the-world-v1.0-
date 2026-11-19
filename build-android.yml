@@ -1,0 +1,95 @@
+name: Build Android APK
+
+on:
+  push:
+    branches: [ main, master ]
+    tags: [ 'v*' ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: 📥 Checkout
+        uses: actions/checkout@v4
+
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: ☕ Setup Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: 🤖 Setup Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: 📦 Install npm dependencies
+        run: npm install
+
+      - name: 🎨 Prepare www (web assets)
+        run: |
+          mkdir -p www
+          cp index.html www/index.html
+          echo "--- www contents ---"
+          ls -la www/
+
+      - name: 🖼️ Generate icons & splash (if SVGs present)
+        run: |
+          if [ -f icon-bg.svg ] && [ -f icon-fg.svg ]; then
+            node make-icons.js
+          else
+            echo "⚠️ icon-bg.svg / icon-fg.svg не найдены — пропускаю make-icons.js"
+            mkdir -p assets
+          fi
+          ls -la assets/ || true
+
+      - name: 🔧 Add Android platform
+        run: |
+          if [ ! -d android ]; then
+            npx cap add android
+          fi
+          npx cap sync android
+
+      - name: 🎨 Capacitor Assets (icons + splash into android)
+        run: |
+          if ls assets/*.png >/dev/null 2>&1; then
+            npx @capacitor/assets generate \
+              --android \
+              --iconBackgroundColor '#050d1c' \
+              --splashBackgroundColor '#050d1c' \
+              --splashBackgroundColorDark '#050d1c' || echo "⚠️ assets generate упал — продолжаю с дефолтными иконками"
+          else
+            echo "⚠️ Нет PNG в assets/ — использую дефолтные иконки Capacitor"
+          fi
+
+      - name: 🏗️ Build Debug APK
+        working-directory: android
+        run: |
+          chmod +x gradlew
+          ./gradlew assembleDebug --no-daemon --stacktrace
+
+      - name: 📤 Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: control-world-debug-apk
+          path: android/app/build/outputs/apk/debug/app-debug.apk
+          retention-days: 30
+
+      - name: 🚀 Attach APK to GitHub Release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: android/app/build/outputs/apk/debug/app-debug.apk
+          name: Control World ${{ github.ref_name }}
+          draft: false
+          prerelease: false
+          generate_release_notes: true

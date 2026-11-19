@@ -1,0 +1,16 @@
+{
+  "name": "control-world",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Control World — 2D стратегия: захвати весь мир",
+  "dependencies": {
+    "@capacitor/android": "^6.1.2",
+    "@capacitor/core": "^6.1.2",
+    "@capacitor/status-bar": "^6.0.1"
+  },
+  "devDependencies": {
+    "@capacitor/assets": "^3.0.5",
+    "@capacitor/cli": "^6.1.2",
+    "sharp": "^0.33.5"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "appId": "com.controlworld.game",
+  "appName": "Control World",
+  "webDir": "www",
+  "backgroundColor": "#050d1c",
+  "server": {
+    "androidScheme": "https"
+  }
+}

@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <defs>
+    <radialGradient id="ocean" cx="38%" cy="32%" r="80%">
+      <stop offset="0" stop-color="#6fd0ff"/>
+      <stop offset=".6" stop-color="#1b78d6"/>
+      <stop offset="1" stop-color="#0a2f73"/>
+    </radialGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fff0a0"/><stop offset="1" stop-color="#f0a010"/>
+    </linearGradient>
+    <clipPath id="globe"><circle cx="512" cy="530" r="235"/></clipPath>
+    <filter id="glow" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="10"/></filter>
+  </defs>
+  <!-- свечение прицела -->
+  <circle cx="512" cy="530" r="300" fill="none" stroke="#ff2d2d" stroke-width="22" opacity=".7" filter="url(#glow)"/>
+  <!-- глобус -->
+  <circle cx="512" cy="530" r="235" fill="url(#ocean)"/>
+  <g clip-path="url(#globe)">
+    <path d="M350 350C395 330 440 355 430 405C420 445 450 485 420 535C400 575 380 615 350 655C330 615 340 555 330 515C320 455 300 400 350 350Z" fill="#e8433c" stroke="#7a1410" stroke-width="5"/>
+    <path d="M520 345C560 315 640 325 690 355C725 395 705 445 655 465C610 485 570 455 540 435C510 415 500 365 520 345Z" fill="#f5b82e" stroke="#8a5a00" stroke-width="5"/>
+    <path d="M540 485C580 475 620 505 610 555C600 605 570 655 550 665C530 635 520 575 520 535C520 510 525 495 540 485Z" fill="#2fbf71" stroke="#0d5a33" stroke-width="5"/>
+    <path d="M650 600C690 590 720 610 710 640C690 660 650 650 650 600Z" fill="#ff7a2f" stroke="#7a2e00" stroke-width="5"/>
+    <g fill="none" stroke="#ffffff" stroke-opacity=".28" stroke-width="3">
+      <ellipse cx="512" cy="530" rx="110" ry="235"/><ellipse cx="512" cy="530" rx="200" ry="235"/>
+      <path d="M277 530H747M300 430H724M300 630H724"/>
+    </g>
+    <ellipse cx="440" cy="400" rx="130" ry="80" fill="#fff" opacity=".18" transform="rotate(-30 440 400)"/>
+  </g>
+  <circle cx="512" cy="530" r="235" fill="none" stroke="#bfe3ff" stroke-width="6" stroke-opacity=".8"/>
+  <!-- прицел -->
+  <circle cx="512" cy="530" r="300" fill="none" stroke="#ff3b3b" stroke-width="16"/>
+  <g stroke="#ff3b3b" stroke-width="16" stroke-linecap="round">
+    <path d="M512 215V270M512 790V845M197 530H252M772 530H827"/>
+  </g>
+  <!-- корона -->
+  <g transform="translate(512 238)">
+    <path d="M-80 60L-95 -30L-45 15L0 -50L45 15L95 -30L80 60Z" fill="url(#gold)" stroke="#8a5a00" stroke-width="7" stroke-linejoin="round"/>
+    <rect x="-82" y="60" width="164" height="22" rx="8" fill="#e08a00" stroke="#8a5a00" stroke-width="6"/>
+    <circle cx="-95" cy="-34" r="11" fill="#ff3b3b"/><circle cx="0" cy="-55" r="12" fill="#ff3b3b"/><circle cx="95" cy="-34" r="11" fill="#ff3b3b"/>
+  </g>
+</svg>
